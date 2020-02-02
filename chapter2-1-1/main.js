@@ -3,6 +3,6 @@ let canvas = null
 function init() {
   canvas = document.getElementById('main-canvas')
   canvas.addEventListener('click', event => {
-    console.log(`座標(${event.clientX}, ${event.clientY})がクリックされた。`)
+    console.log(`座標(${event.offsetX}, ${event.offsetY})がクリックされた。`)
   })
 }

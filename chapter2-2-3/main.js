@@ -19,7 +19,10 @@ function init() {
   const drawColorInput = document.getElementById('draw-color')
   canvas = document.getElementById('main-canvas')
   canvas.addEventListener('click', event => {
-    console.log(`描画色は${drawColorInput.value}です。`)
+    const cellX = Math.floor(event.offsetX / CELL_SIZE)
+    const cellY = Math.floor(event.offsetY / CELL_SIZE)
+    cellData[cellX][cellY] = drawColorInput.value.replace('#', '')
+    drawCanvas()
   })
   drawCanvas()
 }
