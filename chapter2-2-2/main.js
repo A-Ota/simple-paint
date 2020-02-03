@@ -1,18 +1,13 @@
-// 8x8のセルを作成し配列に格納されている色を描画する
+// 16x16のセルを作成し配列に格納されている色を描画する
 let canvas = null
 let drawColorInput = null
-const CELL_SIZE = 32
-const CELL_NUM = 8
-const cellData = [
-  ['cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc'],
-  ['cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc'],
-  ['cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc'],
-  ['cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc'],
-  ['cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc'],
-  ['cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc'],
-  ['cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc'],
-  ['cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc', 'cccccc']
-]
+const CELL_SIZE = 16
+const CELL_NUM = 16
+// 16x16のピクセルを格納する2次元配列
+const cellData = new Array(CELL_NUM)
+for (let i = 0; i < CELL_NUM; ++i) {
+  cellData[i] = new Array(CELL_NUM).fill('cccccc')
+}
 
 // クリック時にカラーピッカーで選択されている色を出力する。
 function init() {
