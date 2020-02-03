@@ -4,9 +4,9 @@ let drawColorInput = null
 const PIXEL_SIZE = 16
 const CANVAS_SIZE = 16
 // 16x16のピクセルを格納する2次元配列
-const pixelData = new Array(PIXEL_NUM)
-for (let i = 0; i < PIXEL_NUM; ++i) {
-  pixelData[i] = new Array(PIXEL_NUM).fill('cccccc')
+const pixelData = new Array(CANVAS_SIZE)
+for (let i = 0; i < CANVAS_SIZE; ++i) {
+  pixelData[i] = new Array(CANVAS_SIZE).fill('cccccc')
 }
 
 // クリック時にカラーピッカーで選択されている色を出力する。
@@ -43,7 +43,7 @@ function executeFillTool(pixelX, pixelY) {
 
 function fillRecursive(pixelX, pixelY, srcColor, dstColor, historySet) {
   // 範囲外チェック
-  if (pixelX < 0 || pixelX >= PIXEL_NUM || pixelY < 0 || pixelY >= PIXEL_NUM) {
+  if (pixelX < 0 || pixelX >= CANVAS_SIZE || pixelY < 0 || pixelY >= CANVAS_SIZE) {
     return
   }
   // すでに処理済み
@@ -69,8 +69,8 @@ function fillRecursive(pixelX, pixelY, srcColor, dstColor, historySet) {
 function drawCanvas() {
   const ctx = canvas.getContext('2d')
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-  for (let y = 0; y < PIXEL_NUM; ++y) {
-    for (let x = 0; x < PIXEL_NUM; ++x) {
+  for (let y = 0; y < CANVAS_SIZE; ++y) {
+    for (let x = 0; x < CANVAS_SIZE; ++x) {
       ctx.fillStyle = '#' + pixelData[x][y]
       ctx.fillRect(x * PIXEL_SIZE, y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE)      
     }
