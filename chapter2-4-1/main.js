@@ -1,4 +1,4 @@
-// カスタマイズのためのインターフェースを作成
+// Monaco Editorを組み込み
 // 16x16のセルを作成し配列に格納されている色を描画する
 let canvas = null
 let drawColorInput = null
