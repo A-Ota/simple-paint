@@ -147,3 +147,17 @@ function savePlugin() {
 function loadPlugin() {
   monacoEditorModel.setValue(localStorage.getItem('plugin'))
 }
+
+/*
+setPixelCallback((x, y, color) => {
+    const canvasSize = getCanvasSize()
+    // 横線
+    for (var ix = 0; ix < canvasSize; ++ix) {
+      setPixelColor(ix, y, color)        
+    }
+    // 縦線
+    for (var iy = 0; iy < canvasSize; ++iy) {
+      setPixelColor(x, iy, color)        
+    }
+})
+*/
