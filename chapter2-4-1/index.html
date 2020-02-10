@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>ペイント</title>
-    <script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
     <script src="main.js"></script>
     <script src="plugin.js"></script>
   </head>
@@ -17,8 +16,8 @@
         <input type="radio" name="tools" id="pen-tool" checked><label for="pen-tool">ペンツール</label>
         <input type="radio" name="tools" id="fill-tool"><label for="fill-tool">塗りつぶしツール</label>
       </p>
+      <textarea id="code-editor" rows="10" cols="60"></textarea><br>
+      <button onclick="javascript:executePlugin();">プラグイン実行</button>
     </div>
-    <textarea id="code-editor" rows="10" cols="60"></textarea><br>
-    <button onclick="javascript:executePlugin();">プラグイン実行</button>
   </body>
 </html>
