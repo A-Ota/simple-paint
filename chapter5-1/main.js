@@ -42,6 +42,7 @@ function initMonacoEditor() {
   require(['vs/editor/editor.main'], function() {
     monacoEditorModel = monaco.editor.createModel(`alert('Hello World!!')`, 'javascript')
     var editor = monaco.editor.create(document.getElementById('container'), {})
+    editor.updateOptions({"lineNumbers": false});
     editor.setModel(monacoEditorModel)
     monaco.languages.typescript.javascriptDefaults.addExtraLib(`
     /**
@@ -69,8 +70,7 @@ function initMonacoEditor() {
      * @param {number} x X座標
      * @param {number} y Y座標
      * @param {string} color そのピクセル座標に設定する色
-     */
-`)
+     */`)
   });
 }
 

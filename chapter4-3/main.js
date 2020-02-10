@@ -10,8 +10,6 @@ for (let i = 0; i < CANVAS_SIZE; ++i) {
   pixelData[i] = new Array(CANVAS_SIZE).fill('cccccc')
 }
 let monacoEditorModel = null
-let pixelCallback = null
-let createViewCallback = null
 
 // クリック時にカラーピッカーで選択されている色を出力する。
 function init() {
@@ -43,6 +41,7 @@ function initMonacoEditor() {
   require(['vs/editor/editor.main'], function() {
     monacoEditorModel = monaco.editor.createModel(`alert('Hello World!!')`, 'javascript')
     var editor = monaco.editor.create(document.getElementById('container'), {})
+    editor.updateOptions({"lineNumbers": false});
     editor.setModel(monacoEditorModel)
     monaco.languages.typescript.javascriptDefaults.addExtraLib(`
     /**
@@ -61,40 +60,14 @@ function initMonacoEditor() {
      * @param {string} color そのピクセル座標に設定する色
      */
     function setPixelColor(x, y, color) {}
-    /**
-     * @param {PixelCallback} callback ピクセル設定時のフック
-     */
-    function setPixelCallback(callback) {}
-    /**
-     * @callback PixelCallback
-     * @param {number} x X座標
-     * @param {number} y Y座標
-     * @param {string} color そのピクセル座標に設定する色
-     */
-    /**
-     * @param {CreateViewCallback} callback プラグイン用のView生成コールバックx
-     */
-    function setCreateViewCallback(callback) {}
-    /**
-     * @callback CreateViewCallback
-     * @return {HTMLElement} プラグイン用に表示するElement
-     */
 `)
   });
-}
-
-function setPixelData(pixelX, pixelY, color) {
-  if (pixelCallback != null) {
-    pixelCallback(pixelX, pixelY, color)
-  } else {
-    pixelData[pixelX][pixelY] = color
-  }
 }
 
 // ペンツール実行
 function executePenTool(pixelX, pixelY) {
   const drawColorInput = document.getElementById('draw-color')
-  setPixelData(pixelX, pixelY, drawColorInput.value.replace('#', ''))
+  pixelData[pixelX][pixelY] = drawColorInput.value.replace('#', '')
 }
 
 // 塗りつぶしツール実行
@@ -123,8 +96,7 @@ function fillRecursive(pixelX, pixelY, srcColor, dstColor, historySet) {
     return
   }
   // 現在のピクセルに色を塗る
-  setPixelData(pixelX, pixelY, dstColor)
-
+  pixelData[pixelX][pixelY] = dstColor  
   // 上下左右のピクセルも処理
   fillRecursive(pixelX + 1, pixelY, srcColor, dstColor, historySet)
   fillRecursive(pixelX - 1, pixelY, srcColor, dstColor, historySet)
@@ -147,43 +119,4 @@ function drawCanvas() {
 // プラグイン実行
 function executePlugin() {
   eval(monacoEditorModel.getValue())
-  if (createViewCallback != null) {
-    const pluginView = document.getElementById('plugin-view')
-    pluginView.innerHTML = ''
-    pluginView.appendChild(createViewCallback())
-  }
 }
-
-function savePlugin() {
-  localStorage.setItem('plugin', monacoEditorModel.getValue())
-}
-
-function loadPlugin() {
-  monacoEditorModel.setValue(localStorage.getItem('plugin'))
-}
-
-/* 
-setCreateViewCallback(() => {
-    const div = document.createElement('div')
-    const buttonRed = document.createElement('button')
-    buttonRed.addEventListener('click', () => fillColor('ff0000'))
-    buttonRed.innerText = '赤でクリア'
-    buttonRed.style.margin = '8px'
-    div.appendChild(buttonRed)
-    const buttonBlue = document.createElement('button')
-    buttonBlue.addEventListener('click', () => fillColor('0000ff'))
-    buttonBlue.innerText = '青でクリア'
-    buttonBlue.style.margin = '8px'
-    div.appendChild(buttonBlue)
-    return div
-})
-
-function fillColor(color) {
-    const canvasSize = getCanvasSize()
-    for (let y = 0; y < canvasSize; ++y) {
-        for (let x = 0; x < canvasSize; ++x) {
-            setPixelColor(x, y, color)
-        }
-    }
-}
-*/

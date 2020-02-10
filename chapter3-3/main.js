@@ -1,4 +1,4 @@
-// Monaco Editorで公開メソッドを補完できるように
+// 色の反転機能のコードを文字列として解釈
 // 16x16のセルを作成し配列に格納されている色を描画する
 let canvas = null
 let drawColorInput = null
@@ -9,11 +9,9 @@ const pixelData = new Array(CANVAS_SIZE)
 for (let i = 0; i < CANVAS_SIZE; ++i) {
   pixelData[i] = new Array(CANVAS_SIZE).fill('cccccc')
 }
-let monacoEditorModel = null
 
 // クリック時にカラーピッカーで選択されている色を出力する。
 function init() {
-  initMonacoEditor()
   canvas = document.getElementById('main-canvas')
   canvas.addEventListener('click', event => {
     const pixelX = Math.floor(event.offsetX / PIXEL_SIZE)
@@ -26,41 +24,6 @@ function init() {
     drawCanvas()
   })
   drawCanvas()
-}
-
-// MonacoEditor初期化
-function initMonacoEditor() {
-  require.config({ 
-    paths: { 'vs': '../node_modules/monaco-editor/min/vs' },
-    'vs/nls' : {
-      availableLanguages : {
-        "*" : "ja"
-      }
-    }
-  });
-  require(['vs/editor/editor.main'], function() {
-    monacoEditorModel = monaco.editor.createModel(`alert('Hello World!!')`, 'javascript')
-    var editor = monaco.editor.create(document.getElementById('container'), {})
-    editor.setModel(monacoEditorModel)
-    monaco.languages.typescript.javascriptDefaults.addExtraLib(`
-    /**
-     * @return {number} キャンバスサイズ
-     */
-    function getCanvasSize() {}
-    /**
-     * @param {number} x X座標
-     * @param {number} y Y座標
-     * @return {string} そのピクセル座標に設定されている色
-     */
-    function getPixelColor(x, y) {}
-    /**
-     * @param {number} x X座標
-     * @param {number} y Y座標
-     * @param {string} color そのピクセル座標に設定する色
-     */
-    function setPixelColor(x, y, color) {}
-`)
-  });
 }
 
 // ペンツール実行
@@ -117,5 +80,13 @@ function drawCanvas() {
 
 // プラグイン実行
 function executePlugin() {
-  eval(monacoEditorModel.getValue())
+  eval(`  // 色反転
+  const canvasSize = getCanvasSize()
+  for (let x = 0; x < canvasSize; ++x) {
+    for (let y = 0; y < canvasSize; ++y) {
+      const oldColor = getPixelColor(x, y)
+      const newColor = Number(parseInt('0x' + oldColor) ^ 0xffffff).toString(16).padStart(6, '0')
+      setPixelColor(x, y, newColor)
+    }
+  }`)
 }
