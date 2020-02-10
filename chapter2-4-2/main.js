@@ -1,4 +1,4 @@
-// Monaco Editorで公開メソッドを補完できるように
+// Monaco Editorを組み込み
 // 16x16のセルを作成し配列に格納されている色を描画する
 let canvas = null
 let drawColorInput = null
@@ -42,24 +42,6 @@ function initMonacoEditor() {
     monacoEditorModel = monaco.editor.createModel(`alert('Hello World!!')`, 'javascript')
     var editor = monaco.editor.create(document.getElementById('container'), {})
     editor.setModel(monacoEditorModel)
-    monaco.languages.typescript.javascriptDefaults.addExtraLib(`
-    /**
-     * @return {number} キャンバスサイズ
-     */
-    function getCanvasSize() {}
-    /**
-     * @param {number} x X座標
-     * @param {number} y Y座標
-     * @return {string} そのピクセル座標に設定されている色
-     */
-    function getPixelColor(x, y) {}
-    /**
-     * @param {number} x X座標
-     * @param {number} y Y座標
-     * @param {string} color そのピクセル座標に設定する色
-     */
-    function setPixelColor(x, y, color) {}
-`)
   });
 }
 

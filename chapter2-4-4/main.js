@@ -119,3 +119,11 @@ function drawCanvas() {
 function executePlugin() {
   eval(monacoEditorModel.getValue())
 }
+
+function savePlugin() {
+  localStorage.setItem('plugin', monacoEditorModel.getValue())
+}
+
+function loadPlugin() {
+  monacoEditorModel.setValue(localStorage.getItem('plugin'))
+}

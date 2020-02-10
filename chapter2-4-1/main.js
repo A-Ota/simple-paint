@@ -9,11 +9,11 @@ const pixelData = new Array(CANVAS_SIZE)
 for (let i = 0; i < CANVAS_SIZE; ++i) {
   pixelData[i] = new Array(CANVAS_SIZE).fill('cccccc')
 }
-let monacoEditorModel = null
+let codeEditor = null
 
 // クリック時にカラーピッカーで選択されている色を出力する。
 function init() {
-  initMonacoEditor()
+  codeEditor = document.getElementById('code-editor')
   canvas = document.getElementById('main-canvas')
   canvas.addEventListener('click', event => {
     const pixelX = Math.floor(event.offsetX / PIXEL_SIZE)
@@ -26,23 +26,6 @@ function init() {
     drawCanvas()
   })
   drawCanvas()
-}
-
-// MonacoEditor初期化
-function initMonacoEditor() {
-  require.config({ 
-    paths: { 'vs': '../node_modules/monaco-editor/min/vs' },
-    'vs/nls' : {
-      availableLanguages : {
-        "*" : "ja"
-      }
-    }
-  });
-  require(['vs/editor/editor.main'], function() {
-    monacoEditorModel = monaco.editor.createModel(`alert('Hello World!!')`, 'javascript')
-    var editor = monaco.editor.create(document.getElementById('container'), {})
-    editor.setModel(monacoEditorModel)
-  });
 }
 
 // ペンツール実行
@@ -99,5 +82,5 @@ function drawCanvas() {
 
 // プラグイン実行
 function executePlugin() {
-  eval(monacoEditorModel.getValue())
+  eval(codeEditor.value)
 }
