@@ -1,7 +1,6 @@
 // インターフェースを利用して色の反転機能を作成
 // 16x16のセルを作成し配列に格納されている色を描画する
 let canvas = null
-let drawColorInput = null
 const PIXEL_SIZE = 16
 const CANVAS_SIZE = 16
 // 16x16のピクセルを格納する2次元配列
